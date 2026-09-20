@@ -1,0 +1,16 @@
+{
+  "name": "motvicka",
+  "owner": {
+    "name": "Adam Motvička"
+  },
+  "metadata": {
+    "description": "Adam Motvička's Claude Code plugins — meme-video tooling synced to real mouse clicks."
+  },
+  "plugins": [
+    {
+      "name": "click-sync-meme",
+      "source": "./",
+      "description": "Split-screen meme videos with a fake screen synced to real mouse clicks and hand movement."
+    }
+  ]
+}

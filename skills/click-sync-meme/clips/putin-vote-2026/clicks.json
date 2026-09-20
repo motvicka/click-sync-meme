@@ -1,0 +1,22 @@
+{
+  "note": "Audible transients in the source clip (seconds from its start), found with scripts/detect_clicks.py and checked against the picture. 'use' says what each one is good for. Before 5.7 s a voice-over drowns everything.",
+  "clicks": [
+    {"t": 7.610,  "strength": 13.1, "kind": "down", "use": "press — the hand starts jittering right after it and keeps going until 8.63: a natural drag"},
+    {"t": 8.626,  "strength": 11.3, "kind": "up",   "use": "release of that drag"},
+    {"t": 9.760,  "strength": 8.8,  "kind": "click", "use": "single click, hand still (treat as down 9.76 / up 9.84)"},
+    {"t": 11.108, "strength": 38.7, "kind": "down", "use": "loud click on the same spot as 9.76 — two clicks on one button read well (e.g. 'bigger' twice)"},
+    {"t": 11.226, "strength": 50.1, "kind": "up",   "use": "its release"},
+    {"t": 13.180, "strength": 21.8, "kind": "thump", "use": "NOT a click: the hand leaves the mouse as he leans in. Nothing should happen on screen"},
+    {"t": 23.878, "strength": 6.5,  "kind": "up",   "use": "faint; good as the release of the long 19.4-23.9 drag"},
+    {"t": 27.522, "strength": 6.2,  "kind": "click", "use": "very faint click, hand still — usable with reinforce:true"},
+    {"t": 30.514, "strength": 29.7, "kind": "down", "use": "loud, clean click, hand still. Also the sample that build_video.py clones for synthetic presses"},
+    {"t": 30.700, "strength": 31.0, "kind": "up",   "use": "its release (cloned for synthetic releases)"},
+    {"t": 34.964, "strength": 30.4, "kind": "down", "use": "THE LAST CLICK before he looks satisfied — put the action that finishes the job here"},
+    {"t": 35.086, "strength": 31.7, "kind": "up",   "use": "its release"}
+  ],
+  "no_audible_click_but_hand_moves": [
+    {"t0": 19.40, "t1": 23.88, "use": "long out-and-back movement; if it is a drag, its press at ~19.40 must be synthetic"},
+    {"t0": 28.17, "t1": 29.17, "use": "plain cursor travel (no button)"},
+    {"t0": 32.34, "t1": 33.97, "use": "biggest movement of the clip: fast push + correction back. As a drag it needs a synthetic press (32.34) and release (33.97)"}
+  ]
+}

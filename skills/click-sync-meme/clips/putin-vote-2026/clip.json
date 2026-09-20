@@ -1,0 +1,61 @@
+{
+  "id": "putin-vote-2026",
+  "title": "Putin votes online from his Kremlin office (18 Sep 2026)",
+  "source": {
+    "url": "https://www.youtube.com/watch?v=OFCRgdl1uhw",
+    "format": "bv*[height<=1080]+ba/b",
+    "note": "Komsomolskaya Pravda upload of the Kremlin pool footage. Not redistributed here; new_project.py downloads it with yt-dlp."
+  },
+  "fps": "24000/1001",
+  "frames": 1070,
+  "size": [1920, 1080],
+
+  "default_start_frame": 140,
+  "start_note": "Frames 0-139 (5.84 s) carry a loud Russian voice-over and a big location caption; starting at 140 skips both.",
+
+  "layout": {
+    "crop": [1728, 1080],
+    "shots": [
+      {"name": "main", "first_frame": 0, "crop_x": 40},
+      {"name": "over_shoulder", "first_frame": 1008, "crop_x": 110}
+    ]
+  },
+
+  "audio": {
+    "gain_db": 8,
+    "click_samples": {"press": [30.502, 30.570], "release": [30.690, 30.760]},
+    "click_sample_lead_ms": 20
+  },
+
+  "hand_tracking": {
+    "crop": [150, 650, 850, 1000],
+    "min_score": 0.7,
+    "segments": [
+      {"name": "A", "t0": 0.0,  "t1": 7.3,  "tref": 6.5,  "box": [215, 175, 440, 280], "valid": [0.0, 7.10]},
+      {"name": "B", "t0": 7.0,  "t1": 13.1, "tref": 10.0, "box": [200, 160, 430, 275], "valid": [7.10, 13.0]},
+      {"name": "C", "t0": 14.3, "t1": 17.4, "tref": 15.8, "box": [200, 130, 450, 270], "valid": [14.4, 17.1]},
+      {"name": "D", "t0": 18.3, "t1": 37.1, "tref": 25.0, "box": [215, 165, 445, 280], "valid": [19.0, 36.8]}
+    ],
+    "note": "One template per posture: he sits upright (A, B, D) or leans into the monitor (C). Between segments the hand is off the mouse, so speed is 0 there."
+  },
+
+  "logo": {
+    "note": "KP.RU watermark = semi-transparent rounded box + opaque white glyphs, same place in both shots.",
+    "box": [60, 60, 340, 170], "radius": 10, "soft_right_edge": 8,
+    "glyph_bbox": [90, 76, 312, 158], "glyph_min": 215,
+    "alpha_samples": {
+      "bright_in": [260, 320, 62, 90], "bright_out": [260, 320, 30, 56],
+      "dark_in": [150, 185, 62, 76],   "dark_out": [150, 185, 173, 186]
+    },
+    "main_fill_slope": 0.045,
+    "median_frames": {"main": [160, 1000, 56], "over_shoulder": [1010, 1069, 4]}
+  },
+
+  "monitor": {
+    "note": "Lit area of the real Dell monitor in the over-the-shoulder shot (static camera). TL, TR, BR, BL in source pixels.",
+    "first_frame": 1008,
+    "quad": [[144.8, 110.4], [765.1, 130.5], [779.5, 593.5], [182.1, 709.2]],
+    "outer_top_edge": [442.4, 81.753, 0.998792, 0.049146],
+    "bezel_x_min": 110
+  }
+}
