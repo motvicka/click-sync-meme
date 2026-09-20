@@ -1,11 +1,13 @@
-# click-sync-meme
+# putin-meme-click-sync
 
-**Skill pro Claude Code, který vyrábí meme videa typu „co ten člověk na tom počítači doopravdy dělá".**
-Nahoře běží reálný záběr, dole falešná nahrávka obrazovky – a kurzor se v ní hýbe přesně tehdy, kdy se hýbe
-skutečná ruka na myši, a kliká přesně na slyšitelné kliky z původního zvuku.
+**Putin meme generátor: skill pro Claude Code, který vyrobí video „co ten Putin na tom počítači doopravdy dělá".**
+Nahoře běží skutečný záběr z Kremlu (Putin 18. 9. 2026 „volí online"), dole falešná nahrávka jeho obrazovky – a kurzor
+se v ní hýbe přesně tehdy, kdy se hýbe jeho ruka na myši, a kliká přesně na slyšitelné kliky z původního zvuku.
+Co na té obrazovce dělá, je na vás.
 
-*A Claude Code skill for split-screen memes: real footage on top, a fake screen recording below whose cursor is
-frame-accurately synced to the person's real mouse hand and audible clicks. English docs: [`SKILL.md`](skills/click-sync-meme/SKILL.md).*
+*A Putin meme generator for Claude Code: real Kremlin footage on top, a fake recording of "his screen" below, with the
+cursor frame-accurately synced to his real mouse hand and audible clicks. You decide what he is doing. The engine is
+generic, so other footage works too. English docs: [`SKILL.md`](skills/putin-meme-click-sync/SKILL.md).*
 
 <p>
   <img src="docs/example.jpg" width="360" alt="Putin ladí v Malování leták na Kytarobraní">
@@ -36,13 +38,13 @@ Potřebujete [Claude Code](https://claude.com/claude-code), `ffmpeg`, `yt-dlp` a
 
 Jako plugin:
 ```
-/plugin marketplace add motvicka/click-sync-meme
-/plugin install click-sync-meme@motvicka
+/plugin marketplace add motvicka/putin-meme-click-sync
+/plugin install putin-meme-click-sync@motvicka
 ```
 Nebo ručně jako osobní skill:
 ```bash
-git clone https://github.com/motvicka/click-sync-meme
-cp -r click-sync-meme/skills/click-sync-meme ~/.claude/skills/
+git clone https://github.com/motvicka/putin-meme-click-sync
+cp -r putin-meme-click-sync/skills/putin-meme-click-sync ~/.claude/skills/
 ```
 
 ## Použití
@@ -61,7 +63,7 @@ frames OK; worst click offset 13 ms (one frame = 42 ms); 0 event(s) without an a
 Skill prošel i „slepým" testem: čerstvý agent, který o původním projektu nic nevěděl, podle něj napoprvé vyrobil
 *Piškvorky 95* (Putin si před výhrou dvěma kliky sníží obtížnost na „Pro děti (3+)") a kontrola synchronizace prošla.
 
-S vlastním videem to jde taky – postup měření je v [`references/new-clip.md`](skills/click-sync-meme/references/new-clip.md).
+S vlastním videem to jde taky – postup měření je v [`references/new-clip.md`](skills/putin-meme-click-sync/references/new-clip.md).
 Hotové „balíčky" dalších klipů rád přijmu jako PR.
 
 ## Jak to funguje (krátce)

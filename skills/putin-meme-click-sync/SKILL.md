@@ -1,11 +1,11 @@
 ---
-name: click-sync-meme
-description: Make a "what is he really doing on that computer" meme video — real footage of someone using a mouse on top, a fake screen recording underneath whose cursor moves, clicks and drags are frame-accurately synchronised with the person's real hand movement and audible mouse clicks. Ships with a fully measured clip (Putin voting online, Sept 2026 — click times, per-frame hand motion, monitor corners, watermark removal) so a new meme only needs a new fake screen. Use this whenever the user wants a split-screen / fake-screen / "what's on his monitor" meme, wants to sync an animation to mouse clicks or hand movement in a video, mentions the Putin voting clip, or asks to remake/parody such a video with their own text, poster, app or joke — even if they just say "udělej mi video kde Putin kliká na ..." or "make him do X on the computer".
+name: putin-meme-click-sync
+description: Putin meme generator — make a "what is he really doing on that computer" meme video. Real footage of someone using a mouse on top (bundled and fully measured: Putin voting online from the Kremlin, Sept 2026), a fake screen recording underneath whose cursor moves, clicks and drags are frame-accurately synchronised with the person's real hand movement and audible mouse clicks. Ships with a fully measured clip (Putin voting online, Sept 2026 — click times, per-frame hand motion, monitor corners, watermark removal) so a new meme only needs a new fake screen. Use this whenever the user wants a split-screen / fake-screen / "what's on his monitor" meme, wants to sync an animation to mouse clicks or hand movement in a video, mentions the Putin voting clip, or asks to remake/parody such a video with their own text, poster, app or joke — even if they just say "udělej mi video kde Putin kliká na ..." or "make him do X on the computer".
 ---
 
-# click-sync-meme
+# putin-meme-click-sync
 
-The result is a vertical (4:5) video: the real clip on top, a fake screen recording below. It is funny only if it is
+A Putin meme generator (and, with your own footage, a generator for anyone filmed using a mouse). The result is a vertical (4:5) video: the real clip on top, a fake screen recording below. It is funny only if it is
 believable, and it is believable only if the fake cursor moves **when the real hand moves** and things happen on
 screen **on the audible clicks**. Everything in this skill serves that.
 
@@ -19,7 +19,7 @@ click that the microphone did not catch, a click cloned from the clip's own audi
 
 ```bash
 sh "$SKILL/scripts/setup.sh"          # venv with numpy/scipy/opencv/playwright + headless Chromium; needs ffmpeg, yt-dlp
-PY=~/.cache/click-sync-meme/venv/bin/python
+PY=~/.cache/putin-meme-click-sync/venv/bin/python
 ```
 
 ## 1. Start a project

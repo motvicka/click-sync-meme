@@ -1,8 +1,10 @@
 {
-  "name": "click-sync-meme",
-  "description": "Make split-screen meme videos where a fake screen recording is frame-accurately synced to a real person's mouse hand and audible clicks. Ships with a fully measured clip (Putin voting online, 2026).",
+  "name": "putin-meme-click-sync",
+  "description": "Putin meme generator: split-screen videos where a fake recording of 'his screen' is frame-accurately synced to his real mouse hand and audible clicks (Kremlin online-voting footage, 2026). Generic engine, works with other footage too.",
   "version": "1.0.0",
-  "author": { "name": "Adam Motvička" },
-  "homepage": "https://github.com/motvicka/click-sync-meme",
+  "author": {
+    "name": "Adam Motvička"
+  },
+  "homepage": "https://github.com/motvicka/putin-meme-click-sync",
   "license": "MIT"
 }
