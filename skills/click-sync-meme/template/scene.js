@@ -122,16 +122,16 @@ const moves = [
 // press/release times are real audio transients, except those marked synthetic (a cloned click gets mixed in there)
 const events = [
   { t: 7.61, type: 'press', grab: 'title' },
-  { t: 8.63, type: 'release' },
-  { t: 9.76, type: 'press', btn: 'bigger' }, { t: 9.84, type: 'release' },
-  { t: 11.108, type: 'press', btn: 'bigger' }, { t: 11.226, type: 'release' },
+  { t: 8.63, type: 'release', label: 'drop title' },
+  { t: 9.78, type: 'press', btn: 'bigger' }, { t: 9.86, type: 'release', label: 'grow 1' },
+  { t: 11.108, type: 'press', btn: 'bigger' }, { t: 11.226, type: 'release', label: 'grow 2' },
   { t: 19.40, type: 'press', grab: 'guitar', synthetic: true },
-  { t: 23.88, type: 'release' },
-  { t: 27.52, type: 'press', btn: 'flip', reinforce: true }, { t: 27.61, type: 'release', reinforce: true },   // real click, but very faint
-  { t: 30.514, type: 'press', grab: 'sub', clickOnly: true }, { t: 30.70, type: 'release' },
+  { t: 23.88, type: 'release', label: 'drop guitar' },
+  { t: 27.52, type: 'press', btn: 'flip', reinforce: true }, { t: 27.61, type: 'release', reinforce: true, label: 'flipped' },   // real click, but very faint
+  { t: 30.514, type: 'press', grab: 'sub', clickOnly: true }, { t: 30.70, type: 'release', label: 'selected' },
   { t: 32.34, type: 'press', grab: 'sub', synthetic: true },
-  { t: 33.97, type: 'release', synthetic: true },
-  { t: 34.964, type: 'press', deselect: true }, { t: 35.086, type: 'release' },
+  { t: 33.97, type: 'release', synthetic: true, label: 'drop sub' },
+  { t: 34.964, type: 'press', deselect: true, label: 'deselect' }, { t: 35.086, type: 'release', label: 'done' },
 ];
 
 function onPress(e, ctx) {

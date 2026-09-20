@@ -15,10 +15,10 @@ from scipy.io import wavfile
 from scipy.signal import butter, sosfilt
 from scipy.ndimage import median_filter
 
-ap = argparse.ArgumentParser()
-ap.add_argument('video'); ap.add_argument('--out', default='clicks_raw.json')
-ap.add_argument('--hp', type=float, default=6000); ap.add_argument('--ratio', type=float, default=5)
-ap.add_argument('--from', dest='t0', type=float, default=0); ap.add_argument('--to', dest='t1', type=float, default=1e9)
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument('video'); ap.add_argument('--out', default='clicks_raw.json', help='where to write the list (default clicks_raw.json)')
+ap.add_argument('--hp', type=float, default=6000, help='high-pass cutoff in Hz (default 6000)'); ap.add_argument('--ratio', type=float, default=5, help='how far above the local median a peak must be (default 5; lower finds fainter clicks and more junk)')
+ap.add_argument('--from', dest='t0', type=float, default=0, help='only report from this second'); ap.add_argument('--to', dest='t1', type=float, default=1e9, help='only report up to this second')
 a = ap.parse_args()
 
 wav = tempfile.mktemp(suffix='.wav')

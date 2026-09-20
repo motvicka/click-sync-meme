@@ -45,8 +45,8 @@ should line up with what you saw in the contact sheets, and clicks should sit at
 Optical flow was tried first and rejected: it drifts, and the sleeve, arm and leaning body contaminate it.
 
 ## 4. Optional: watermark and monitor
-- Monitor in shot: `find_screen_quad.py src/clip.mp4 --frame N --roi x0,y0,x1,y1 --debug build/quad.jpg`, check the debug
-  image, paste the quad into `monitor.quad`, set `monitor.first_frame` to that shot's first frame (the shot must be static
+- Monitor in shot: `find_screen_quad.py src/clip.mp4 --frame N --roi x0,y0,x1,y1 --debug build/quad.jpg` (add
+  `--dark-bottom 0.025` when a dark taskbar sits under the lit page — it belongs to the panel too), check the debug image, paste the quad into `monitor.quad`, set `monitor.first_frame` to that shot's first frame (the shot must be static
   and the screen unobstructed; otherwise skip this).
 - Watermark: if it is a flat semi-transparent box, the un-blend in `make_patches.py` restores the real pixels exactly —
   you need its rectangle/radius and four sample regions (a bright and a dark surface, each inside and outside the box).

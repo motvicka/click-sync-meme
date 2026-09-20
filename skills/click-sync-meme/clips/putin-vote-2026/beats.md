@@ -13,7 +13,7 @@ Camera is locked off in both shots. He sits facing the monitor on the left; his 
 | 7.6 – 8.6 | three small nervous movements (7.6–7.95, 8.05–8.4, 8.45–8.75) | indecisive drag: overshoot, back, settle |
 | **8.63** | audible release | drop |
 | 8.84 – 9.5 | small move back towards himself | cursor goes a short way (e.g. to a button just below) |
-| **9.76**, **11.11 / 11.23** | two clicks, hand does not move between them | press the same button twice |
+| **9.78**, **11.11 / 11.23** | two clicks, hand does not move between them (first one soft, second loud) | press the same control twice — a stepper, undo, "next" |
 | 11.3 – 13.0 | still | — |
 | 13.0 – 14.5 | **leans right into the monitor**, right hand OFF the mouse, pointing at the screen (thump at 13.18 is the hand, not a click) | he inspects your result up close; cursor must not move |
 | 14.6 – 17.1 | still leaning in, hand back on the mouse, moves it by ~1 px (15.8–17.1) | pixel-peeping nudge of a few px at most |

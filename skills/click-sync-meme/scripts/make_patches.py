@@ -17,11 +17,12 @@ The edge directions used for filling are specific to where the watermark sits in
 back in one shot, over a monitor's top-left bezel corner in the other). For another clip keep the un-blend and the
 illumination trick, and adapt the fill directions to the straight structures under YOUR watermark.
 """
+import sys; sys.dont_write_bytecode = True      # keep the skill directory clean
 import argparse, json
 import cv2, numpy as np
 from _common import project, clip_pack
 
-ap = argparse.ArgumentParser(); ap.add_argument('--project', default='.'); ap.add_argument('--preview', action='store_true')
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter); ap.add_argument('--project', default='.', help='project directory (default: current dir)')
 a = ap.parse_args()
 proj, pj = project(a.project); pack, clip = clip_pack(pj['clip'], proj)
 logo, mon = clip.get('logo'), clip.get('monitor')

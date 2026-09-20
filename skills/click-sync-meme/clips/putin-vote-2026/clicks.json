@@ -3,7 +3,7 @@
   "clicks": [
     {"t": 7.610,  "strength": 13.1, "kind": "down", "use": "press — the hand starts jittering right after it and keeps going until 8.63: a natural drag"},
     {"t": 8.626,  "strength": 11.3, "kind": "up",   "use": "release of that drag"},
-    {"t": 9.760,  "strength": 8.8,  "kind": "click", "use": "single click, hand still (treat as down 9.76 / up 9.84)"},
+    {"t": 9.780,  "strength": 8.8,  "kind": "click", "use": "single soft click, hand still; onset 9.76, peak 9.79 (treat as down 9.78 / up 9.86)"},
     {"t": 11.108, "strength": 38.7, "kind": "down", "use": "loud click on the same spot as 9.76 — two clicks on one button read well (e.g. 'bigger' twice)"},
     {"t": 11.226, "strength": 50.1, "kind": "up",   "use": "its release"},
     {"t": 13.180, "strength": 21.8, "kind": "thump", "use": "NOT a click: the hand leaves the mouse as he leans in. Nothing should happen on screen"},

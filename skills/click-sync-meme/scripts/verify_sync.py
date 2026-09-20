@@ -8,7 +8,14 @@
 2. Click alignment: every press/release in build/events.json must have an audio transient within one video frame
    (42 ms at 24 fps) in the FINAL file. A real click that is too faint to detect shows up as "none" — consider
    reinforce:true for it in the scene.
+
+Table columns: time in the finished video, event, label, source of the sound, measured offset.
+  real = the clip's own click   real+ = real click with a quieter clone layered on (reinforce)   cloned = synthetic click
+A constant +10..15 ms is normal (detector + AAC latency); what matters is that nothing exceeds one frame.
+Passes (exit 0) when every matched frame is the expected one and the worst offset is <= one frame. The last line reads e.g.
+  frames OK; worst click offset 33 ms (one frame = 42 ms); 0 event(s) without an audible transient
 """
+import sys; sys.dont_write_bytecode = True      # keep the skill directory clean
 import argparse, json, subprocess, tempfile, os
 import cv2, numpy as np
 from scipy.io import wavfile
@@ -16,7 +23,7 @@ from scipy.signal import butter, sosfilt
 from scipy.ndimage import median_filter
 from _common import project, clip_pack, fps_of
 
-ap = argparse.ArgumentParser(); ap.add_argument('--project', default='.'); a = ap.parse_args()
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter); ap.add_argument('--project', default='.', help='project directory (default: current dir)'); a = ap.parse_args()
 proj, pj = project(a.project); pack, clip = clip_pack(pj['clip'], proj); fps = fps_of(clip)
 lb = json.loads((proj / 'build' / 'last_build.json').read_text()); start, th, sw = lb['start_frame'], lb['top_h'], lb['width']
 ev = json.loads((proj / 'build' / 'events.json').read_text())['events']
@@ -55,8 +62,9 @@ for e in ev:
     near = min(on, key=lambda o: abs(o - te)) if on else None
     d = None if near is None or abs(near - te) > 0.12 else (near - te) * 1000
     tag = 'cloned' if e['synthetic'] else ('real+' if e['reinforce'] else 'real')
-    if d is None: missing += 1; print(f"  {te:7.3f}s {e['type']:8s}{e['label']:10s}{tag:7s} none within 120 ms")
-    else: worst = max(worst, abs(d)); print(f"  {te:7.3f}s {e['type']:8s}{e['label']:10s}{tag:7s} audio {d:+5.0f} ms")
+    lab = e['label'][:18]
+    if d is None: missing += 1; print(f"  {te:7.3f}s  {e['type']:8s} {lab:18s} {tag:7s} none within 120 ms")
+    else: worst = max(worst, abs(d)); print(f"  {te:7.3f}s  {e['type']:8s} {lab:18s} {tag:7s} audio {d:+5.0f} ms")
 frame_ms = 1000 / fps
 print(f'\nframes {"OK" if ok_frames else "MISALIGNED"}; worst click offset {worst:.0f} ms (one frame = {frame_ms:.0f} ms); {missing} event(s) without an audible transient')
 raise SystemExit(0 if ok_frames and worst <= frame_ms else 1)

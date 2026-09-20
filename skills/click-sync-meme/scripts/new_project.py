@@ -8,12 +8,16 @@ and drops the pack's measured hand.js next to it — you can go straight to edit
 With your own footage (--video FILE --clip my-name): copies the video and writes a skeleton clip/clip.json for you
 to fill in while following references/new-clip.md.
 """
-import argparse, json, pathlib, shutil, subprocess, sys
+import sys; sys.dont_write_bytecode = True      # keep the skill directory clean
+import argparse, json, pathlib, shutil, subprocess
 from _common import SKILL_DIR
 
-ap = argparse.ArgumentParser()
-ap.add_argument('--dir', default='.'); ap.add_argument('--clip', default='putin-vote-2026')
-ap.add_argument('--video'); ap.add_argument('--no-download', action='store_true'); ap.add_argument('--force', action='store_true')
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument('--dir', '--project', dest='dir', default='.', help='project directory to create/fill (default: current dir)')
+ap.add_argument('--clip', default='putin-vote-2026', help='id of a bundled clip pack (see clips/), or a new id for your own footage')
+ap.add_argument('--video', help='use this local video file as src/clip.mp4 instead of downloading (required for your own footage)')
+ap.add_argument('--no-download', action='store_true', help='do not fetch the clip (you will put src/clip.mp4 there yourself)')
+ap.add_argument('--force', action='store_true', help='overwrite screen/, project.json and a skeleton clip.json that already exist')
 a = ap.parse_args()
 proj = pathlib.Path(a.dir).resolve(); (proj / 'src').mkdir(parents=True, exist_ok=True); (proj / 'build').mkdir(exist_ok=True)
 pack = SKILL_DIR / 'clips' / a.clip

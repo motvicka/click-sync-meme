@@ -9,11 +9,15 @@ Audio      = original track; for every event flagged synthetic/reinforce in buil
              the clip's own audio (clip.json -> audio.click_samples) is mixed in, so added clicks sound like his mouse.
 Trimming happens last, on the stacked video and the mixed audio together, which is why sync survives any --start-frame.
 """
+import sys; sys.dont_write_bytecode = True      # keep the skill directory clean
 import argparse, json, subprocess
 from _common import project, clip_pack, fps_of
 
-ap = argparse.ArgumentParser()
-ap.add_argument('--project', default='.'); ap.add_argument('--start-frame', type=int); ap.add_argument('--out'); ap.add_argument('--crf', type=int, default=17)
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument('--project', default='.', help='project directory (default: current dir)')
+ap.add_argument('--start-frame', type=int, help='first SOURCE frame to keep (default: project.json start_frame, else the clip pack default; 0 = whole clip)')
+ap.add_argument('--out', help='output file name inside the project (default: project.json out, else meme.mp4)')
+ap.add_argument('--crf', type=int, default=17, help='x264 quality, lower = better/bigger (default 17)')
 a = ap.parse_args()
 proj, pj = project(a.project); pack, clip = clip_pack(pj['clip'], proj)
 fps = fps_of(clip); FPS = clip['fps']

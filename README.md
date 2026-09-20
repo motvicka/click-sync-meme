@@ -55,8 +55,11 @@ Claude si přečte mapu klipu, navrhne vám scénář (čas → co dělá on →
 obrazovku, vyrenderuje, složí video a nakonec vypíše naměřenou synchronizaci, např.:
 
 ```
-frames OK; worst click offset 33 ms (one frame = 42 ms); 0 event(s) without an audible transient
+frames OK; worst click offset 13 ms (one frame = 42 ms); 0 event(s) without an audible transient
 ```
+
+Skill prošel i „slepým" testem: čerstvý agent, který o původním projektu nic nevěděl, podle něj napoprvé vyrobil
+*Piškvorky 95* (Putin si před výhrou dvěma kliky sníží obtížnost na „Pro děti (3+)") a kontrola synchronizace prošla.
 
 S vlastním videem to jde taky – postup měření je v [`references/new-clip.md`](skills/click-sync-meme/references/new-clip.md).
 Hotové „balíčky" dalších klipů rád přijmu jako PR.

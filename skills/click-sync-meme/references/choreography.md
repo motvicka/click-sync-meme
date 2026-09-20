@@ -35,7 +35,12 @@ If the hand moved < 0.8 px in the whole window the engine silently falls back to
 { t, type: 'press' | 'release', ...anything your onPress/onRelease wants (grab:'title', btn:'bigger', ...) }
   // synthetic: true   no audible click exists here -> a cloned click is mixed into the audio
   // reinforce: true   a real click exists but is faint -> a quieter clone is layered on top
+  // label: 'X placed'  names the row in verify_sync.py's table (defaults to e.grab || e.btn)
+{ t, type: 'call', fn(ctx) }      // silent timed hook: no ripple, no sound, not in the sync check
 ```
+Use `call` for everything the mouse did not do — the computer's reply half a second after a move in a game, a dialog
+popping up, a progress bar finishing. For purely per-frame effects (hover highlight, blinking banner) compute them in
+`snapshot()` from `ctx.i` / `ctx.t`; it runs once per frame, in order, with `ctx = {cur, i, t, dragging}`.
 An event fires on the video frame nearest to `t`. A drag is: `press` → `ctx.startDrag(obj)` in `onPress` → one or more
 `by` moves → `release`. While dragging, `obj.x/obj.y` follow the cursor (rounded to whole pixels).
 
@@ -43,9 +48,11 @@ An event fires on the video frame nearest to `t`. A drag is: `press` → `ctx.st
 
 1. List the clip's clicks and movement bursts (`beats.md`, `clicks.json`, or the burst list printed by `track_hand.py`).
 2. Assign meaning: which bursts are drags (need press before, release after), which are free travel, which clicks press buttons.
-3. Only then lay out the screen — **put things where the cursor will be**, not the other way round. Two clicks with a
-   motionless hand between them must hit the same control, so design a control that makes sense to press twice and
-   place it a short move away from where the previous action ended.
+3. Only then lay out the screen — **put things where the cursor will be**, not the other way round. Run
+   `scripts/bursts.py --windows ...` for the windows you plan to use: it prints the hand travel and the cursor distance
+   that travel can plausibly carry. Two clicks with a motionless hand between them must hit the same control, so design
+   a control that makes sense to press twice (size/zoom/volume/difficulty stepper, undo, "next", dismissing two stacked
+   dialogs, +1 on a counter) and place it a short move away from where the previous action ended.
 4. Write moves with `by` for drags and lazy `to: () => ...` for travel to objects/buttons.
 
 ## Rules of thumb that made the example feel real

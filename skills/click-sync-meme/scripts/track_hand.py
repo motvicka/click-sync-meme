@@ -17,13 +17,16 @@ Writes (into the project's clip/ dir, or next to the clip pack when run with --p
   hand.js     `const HAND = {fps, n, speed[]}` — px the hand moved between consecutive frames; this paces the fake cursor
 and prints the movement bursts, which become the time windows of your cursor moves.
 """
+import sys; sys.dont_write_bytecode = True      # keep the skill directory clean
 import argparse, json, pathlib
 import cv2, numpy as np
 from scipy.ndimage import gaussian_filter1d
 from _common import project, clip_pack
 
-ap = argparse.ArgumentParser()
-ap.add_argument('--project', default='.'); ap.add_argument('--video'); ap.add_argument('--out')
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument('--project', default='.', help='project directory (default: current dir)')
+ap.add_argument('--video', help='video to measure (default: <project>/src/clip.mp4)')
+ap.add_argument('--out', help='output directory for track.json and hand.js (default: <project>/clip)')
 a = ap.parse_args()
 proj, pj = project(a.project); pack, clip = clip_pack(pj['clip'], proj)
 cfg = clip['hand_tracking']; video = a.video or str(proj / 'src' / 'clip.mp4')

@@ -52,9 +52,9 @@
   },
 
   "monitor": {
-    "note": "Lit area of the real Dell monitor in the over-the-shoulder shot (static camera). TL, TR, BR, BL in source pixels.",
+    "note": "Whole panel of the real Dell monitor in the over-the-shoulder shot (static camera), TL, TR, BR, BL in source pixels. The bottom edge is the bottom of the dark Windows taskbar, NOT the bottom of the lit page — measured separately, because brightness thresholding stops at the taskbar.",
     "first_frame": 1008,
-    "quad": [[144.8, 110.4], [765.1, 130.5], [779.5, 593.5], [182.1, 709.2]],
+    "quad": [[144.8, 110.4], [765.1, 130.5], [779.8, 605.3], [183.1, 725.0]],
     "outer_top_edge": [442.4, 81.753, 0.998792, 0.049146],
     "bezel_x_min": 110
   }

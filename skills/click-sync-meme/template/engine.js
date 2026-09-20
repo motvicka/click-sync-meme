@@ -12,14 +12,18 @@
 //             by  = relative to wherever the cursor is when the move starts
 //             prof = 'hand' (default) | 'ease' | 'easeOut'   use ease* where tracking is unreliable or the hand barely moves
 //             arc = px of sideways bow, makes free moves look human
-//   events  [{t, type:'press'|'release', synthetic?, reinforce?, ...your own fields}]   sorted by t
+//   events  [{t, type:'press'|'release', synthetic?, reinforce?, label?, ...your own fields}]   sorted by t
 //             t should sit on a real audio transient (see clips/<id>/clicks.json). Where the story needs a click the
 //             microphone did not catch, set synthetic:true and the build mixes a cloned click sound in at that time;
 //             reinforce:true does the same, quieter, on top of a real but faint click.
+//             label names the row in verify_sync.py's table (defaults to e.grab or e.btn).
+//           {t, type:'call', fn(ctx)}   silent timed hook for things the mouse did not do (the computer's reply in a game,
+//             a dialog popping up): no ripple, no sound, not part of the sync check.
 //   onPress(e, ctx) / onRelease(e, ctx)   scene logic. ctx = {cur:[x,y], i, t, startDrag(obj)}; obj needs numeric x,y.
 //             A drag ends automatically on the next release (after onRelease ran).
 //   snapshot(ctx) -> any   called once per frame after moves/events/drag were applied; return everything apply() needs,
-//             including cursor:'arrow'|'move'. ctx = {cur, i, t, dragging}
+//             including cursor:'arrow'|'move'|'hand'. ctx = {cur, i, t, dragging}. Runs for every frame in order, so it may
+//             also derive per-frame things (hover highlights, blinking) from ctx.i / ctx.t.
 //   apply(s, frame, i)     put snapshot s on the DOM. frame = {cx, cy, ripples, s}
 //   start   [x,y] initial cursor position;  origin [x,y] screen position of the coordinate system used by moves
 //
@@ -69,6 +73,7 @@ const Engine = (() => {
       while (ei < events.length && i >= Math.round(events[ei].t * FPS)) {
         const e = events[ei++];
         const ctx = { cur, i, t, startDrag: (o) => { drag = { o, ox: o.x - cur[0], oy: o.y - cur[1] }; } };
+        if (e.type === 'call') { e.fn(ctx); continue; }
         if (e.type === 'press') { ripples.push({ x: cur[0], y: cur[1], f: i }); if (c.onPress) c.onPress(e, ctx); }
         else { if (c.onRelease) c.onRelease(e, ctx); drag = null; }
       }
@@ -80,7 +85,7 @@ const Engine = (() => {
       });
     }
     // read back by scripts/render_screen.py -> build/events.json (used for synthetic clicks and the sync check)
-    window.EVENTS = events.map(e => ({ t: e.t, type: e.type, synthetic: !!e.synthetic, reinforce: !!e.reinforce, label: e.label || e.grab || e.btn || '' }));
+    window.EVENTS = events.filter(e => e.type !== 'call').map(e => ({ t: e.t, type: e.type, synthetic: !!e.synthetic, reinforce: !!e.reinforce, label: e.label || e.grab || e.btn || '' }));
     window.renderFrame = renderFrame;
     renderFrame(0);
     window.READY = true;

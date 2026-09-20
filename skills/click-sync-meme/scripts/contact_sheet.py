@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Timestamped tile sheet of a clip, so you can SEE what happens when (Read the resulting JPG).
 
-  contact_sheet.py VIDEO OUT.jpg [--fps 1] [--from 0] [--to END] [--crop x:y:w:h] [--cols 6] [--width 480]
+  contact_sheet.py VIDEO OUT.jpg [--fps 1] [--from 0] [--to END] [--crop w:h:x:y] [--cols 6] [--width 480]
 
 Typical use: whole clip at 1 fps for the story beats, then 4-6 fps with --crop around the hand for the moments
 where the hand leaves or returns to the mouse.
 """
 import argparse, math, subprocess, json
-ap = argparse.ArgumentParser()
-ap.add_argument('video'); ap.add_argument('out')
-ap.add_argument('--fps', type=float, default=1); ap.add_argument('--from', dest='t0', type=float, default=0); ap.add_argument('--to', dest='t1', type=float)
-ap.add_argument('--crop'); ap.add_argument('--cols', type=int, default=6); ap.add_argument('--width', type=int, default=480)
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument('video'); ap.add_argument('out', help='output JPG')
+ap.add_argument('--fps', type=float, default=1, help='tiles per second of video (default 1)'); ap.add_argument('--from', dest='t0', type=float, default=0, help='start second'); ap.add_argument('--to', dest='t1', type=float, help='end second (default: end of clip)')
+ap.add_argument('--crop', help='w:h:x:y in source pixels (ffmpeg crop syntax), e.g. around the hand'); ap.add_argument('--cols', type=int, default=6, help='tiles per row'); ap.add_argument('--width', type=int, default=480, help='tile width in px')
 a = ap.parse_args()
 dur = float(json.loads(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'json', a.video], capture_output=True, text=True).stdout)['format']['duration'])
 t1 = min(a.t1 or dur, dur); n = max(1, int(math.ceil((t1 - a.t0) * a.fps))); rows = math.ceil(n / a.cols)

@@ -25,10 +25,10 @@ PY=~/.cache/click-sync-meme/venv/bin/python
 ## 1. Start a project
 
 ```bash
-cd <empty dir> && $PY "$SKILL/scripts/new_project.py"            # bundled clip: putin-vote-2026
+$PY "$SKILL/scripts/new_project.py" --project <empty dir>        # bundled clip: putin-vote-2026
 ```
 This downloads the clip to `src/clip.mp4`, copies the screen template to `screen/` and puts the clip's measured
-`hand.js` next to it. Using different footage? Read `references/new-clip.md` first — you must measure it before
+`hand.js` next to it. Every script takes `--project DIR` (default: current directory) and has a real `--help`. Using different footage? Read `references/new-clip.md` first — you must measure it before
 anything else makes sense.
 
 ## 2. Learn the clip before writing the story
@@ -42,6 +42,12 @@ what each is good for). The story must be written **around** these — you canno
 - the last click before the "satisfied" reaction must complete the job, and the screen must sit in its final state
   for a second or two before the reaction;
 - reaction beats (leaning in, gesturing) are gifts: make sure what is on screen at that moment deserves the reaction.
+
+Before laying anything out, check how far the cursor can plausibly travel in each window you intend to use:
+```bash
+$PY "$SKILL/scripts/bursts.py" --windows 7.15-7.6 8.84-9.55 25.3-26.6      # or no --windows: list every burst
+```
+Small hand movements can only carry the cursor a short way, and that decides where buttons and targets must sit.
 
 Then tell the user the plan as a short table (time → what he does → what happens on screen) before building it.
 It is cheap to change at this point and expensive later.
@@ -59,9 +65,14 @@ where to put UI so that both clicks of a double click land on it, synthetic vs. 
 
 Preview often, look at the PNGs, fix, repeat:
 ```bash
-$PY "$SKILL/scripts/render_screen.py" --frames 185 237 271 484 664 792 844     # -> build/preview/*.png  (frame = seconds * fps)
+$PY "$SKILL/scripts/render_screen.py" --events                 # frame after every press/release (+ one before each press)
+$PY "$SKILL/scripts/render_screen.py" --times 20.2 33.0        # any other moment, e.g. the extremes of a drag  -> build/preview/NNNNN.png
 ```
-Check at least one frame per event: just after every press, release, and at the extremes of every drag.
+Check at least one frame per event, and the extremes of every drag.
+
+What the engine needs from `screen.html` is marked `REQUIRED BY ENGINE` in the template (`#cursor`, `#ripples` and their
+CSS, `cursor:none`, the fixed 1080x675 `#screen`, script order `hand.js` → `engine.js` → `scene.js`); the rest is the example app.
+Text for the viewer ("VYHRÁL JSI!", captions) belongs inside the fake screen — there is no overlay on the real-footage pane.
 
 ## 4. Render, patch, assemble, verify
 
@@ -69,13 +80,15 @@ Check at least one frame per event: just after every press, release, and at the 
 $PY "$SKILL/scripts/render_screen.py"      # all frames -> build/frames, build/events.json, build/final_screen.png
 $PY "$SKILL/scripts/make_patches.py"       # watermark removal + your final screen on the real monitor (if the clip pack defines them)
 $PY "$SKILL/scripts/build_video.py"        # -> meme.mp4 (1080x1350). --start-frame N to keep/cut the intro
-$PY "$SKILL/scripts/verify_sync.py"        # must end with "frames OK; worst click offset <= one frame"
+$PY "$SKILL/scripts/verify_sync.py"        # exit 0 + last line like: frames OK; worst click offset 33 ms (one frame = 42 ms); 0 event(s) without an audible transient
 ```
 Look at `build/patch_*_preview.jpg` and at a few frames of the finished video (`ffmpeg -ss T -i meme.mp4 -frames:v 1 x.png`)
 yourself before showing it — especially the final shot with the composited monitor.
 
 `verify_sync.py` is the acceptance test: it matches output frames back to source frames and measures the distance
-between every scripted press/release and the nearest audio transient **in the finished file**. Report its numbers to
+between every scripted press/release and the nearest audio transient **in the finished file**. It passes when every
+matched frame is the expected one and the worst click offset is at most one video frame; `real` / `real+` / `cloned`
+in its table say whether the sound is the clip's own click, a reinforced one, or a synthetic one. Report its numbers to
 the user rather than saying "it should be in sync". If it fails, the usual causes are an event time that is not on a
 transient (check `clicks.json`), or a synthetic click without `synthetic:true`.
 
@@ -85,6 +98,10 @@ transient (check `clicks.json`), or a synthetic click without `synthetic:true`.
   watching muted will not notice clicks at all, so the visual click ripple (built into the engine) matters.
 - **Fonts.** The template uses Comic Sans MS, Times New Roman, Tahoma (present on macOS/Windows). On Linux install
   `ttf-mscorefonts-installer` or swap fonts, otherwise text widths and therefore positions change.
+- **Tweaking a bundled clip pack** (different crop, monitor quad, start frame): copy `clips/<id>/` to `<project>/clip/` and
+  edit there — a project-local `clip/clip.json` wins over the bundled one. `project.json` holds `start_frame` and `out`.
+- **Monitor composite covers the whole panel**, so your fake screen's own taskbar/dock replaces the real one. If you measure
+  a monitor yourself, remember a dark taskbar is not part of the lit area (`find_screen_quad.py --dark-bottom`).
 - **Do not re-encode or re-time the source** before measuring or building; all data is indexed by source frame number.
   `new_project.py` warns if the download's fps/frame count differs from the pack.
 - **The clip itself is not in this repo** (third-party footage); it is downloaded on demand. If the URL dies, any copy of
@@ -98,6 +115,7 @@ transient (check `clicks.json`), or a synthetic click without `synthetic:true`.
 |---|---|
 | `scripts/new_project.py` | project scaffold + clip download |
 | `scripts/contact_sheet.py` | timestamped tile sheet of any part of a clip — how you *see* the beats |
+| `scripts/bursts.py` | hand travel per burst / per planned window → how far the cursor may go |
 | `scripts/detect_clicks.py` | audible clicks from the audio track |
 | `scripts/track_hand.py` | per-frame hand position/speed → `hand.js` |
 | `scripts/find_screen_quad.py` | corners of a real monitor in a shot |
